@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './components/Header';
+import Departures from './components/Departures';
 
 
 const App: React.FC = () => {
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         onSearch={handleSearch} 
       />
       {/* logic */}
+      <Departures />
     </div>
   );
 };
