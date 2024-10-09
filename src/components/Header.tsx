@@ -8,7 +8,7 @@ interface HeaderProps {
   onSearch: (searchTerm: string) => void; 
 }
 
-const Header: React.FC<HeaderProps> = ({ logoUrl, title, onSearch }) => {
+const Header: React.FC<HeaderProps> = ({ title, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ logoUrl, title, onSearch }) => {
     <div className="header-container">
     <header className="header">
         <div className="logo-container">
-      <img src={logoUrl} alt="Logo" className="logo" />
+      <img src="/images/logo.png" alt="Logo" className="logo" />
       </div>
       <div className="title-container">
         <h1 className="title">{title}</h1>

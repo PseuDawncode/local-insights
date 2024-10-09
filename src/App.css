@@ -66,15 +66,18 @@ body, html {
 
 
 .logo {
-  height: 50px;          
+  height: 120px;          
   margin-right: 20px;
 }
 
 .logo-container {
   position: absolute;
-  left: 20px; 
+  left: 15px; 
   transform: translateY(-50%);
   margin-left: 50px;
+  margin-top: 120px;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
