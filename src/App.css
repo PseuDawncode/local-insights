@@ -91,10 +91,40 @@ body, html {
   margin-bottom: 30px; 
 }
 
+.main-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  align-items: stretch;
+  justify-items: center;
+  grid-gap: 2vh;
+  margin: 2vh;
+}
+.temp {
+  width: -webkit-fill-available;
+  border: 1px solid gray;
+
+  &.weather {
+    grid-column: 4 / 5;
+    grid-row: 1 / 2;
+  }
+  &.opt-info {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+  
+  &.traffic {
+    grid-column: 3 / 5;
+    grid-row: 2 / 3;
+  }
+}
+
 /* Departures table styling */
 
 .departures-table {
-  width: 60%;
+  grid-column: 2 / 4;
+  grid-row: 1 / 2;
+  /* width: 60%; */
   border:#007BFF solid 1px
 }
 
