@@ -17,7 +17,13 @@ const App: React.FC = () => {
         onSearch={handleSearch} 
       />
       {/* logic */}
-      <Departures />
+      <div className='main-container'>
+        <Departures />
+        <div className='temp weather'/>
+        <div className='temp opt-info'/>
+        <div className='temp traffic'/>
+      </div>
+      
     </div>
   );
 };
