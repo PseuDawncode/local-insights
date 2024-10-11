@@ -63,8 +63,6 @@ body, html {
   box-sizing: border-box; 
 }
 
-
-
 .logo {
   height: 120px;          
   margin-right: 20px;
@@ -119,15 +117,26 @@ body, html {
   }
 }
 
-/* Departures table styling */
+/* Table styling */
 
-.departures-table {
+table {
+  border-collapse: collapse;
   grid-column: 2 / 4;
   grid-row: 1 / 2;
   width: -webkit-fill-available;
-  border:#007BFF solid 1px
+  border:#9B53F2 solid 3px;
 }
 
-.departures-table > tr > th {
-  border: pink solid 2px;
+table > tr > th {
+  border-bottom: pink solid 2px;
+}
+
+td, th {
+  border-right: #40A3E7 2px solid;
+  padding-left: 5px;
+  border-bottom: pink 2px solid;
+}
+
+td:last-child, th:last-child {
+  border-right: none;
 }

@@ -4,7 +4,8 @@ import '../App.css';
 interface SearchBarProps {
   onSearch: (searchTerm: string) => void;
 }
-const apiKey = process.env.API_KEY
+const apiKey = import.meta.env.VITE_API_KEY
+console.log(import.meta.env.VITE_API_KEY)
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
