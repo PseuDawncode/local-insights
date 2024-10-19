@@ -17,7 +17,7 @@ const Weather: WeatherProps = ({lat, lng}) => {
         setError(null);
 
         try{
-            const apiKey = '';
+            const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
             const weatherResponse = await fetch ('');
             const weatherData =await weatherResponse.json();
             setWeatherData (weatherData);
