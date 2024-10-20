@@ -18,14 +18,23 @@ interface GoogleGeocodeResponse {
   }>;
 }
 
+interface TransportData {
+  from: string;
+  to: string;
+  platform: string;
+  time: string;
+  type: string;
+}
+
 interface HeaderProps {
-  title: string;  
-  onSearch: (coordinates: GeocodeResult | null) => void; 
+  title: string;
+  onSearch: (coordinates: GeocodeResult | null) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ title, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [transportData, setTransportData] = useState<TransportData[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -34,11 +43,11 @@ const Header: React.FC<HeaderProps> = ({ title, onSearch }) => {
   const getCoordinates = async () => {
     try {
       const response = await axios.get<GoogleGeocodeResponse>(
-        `https://maps.googleapis.com/maps/api/geocode/json`,
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${apiKey}`,
         {
           params: {
             address: searchTerm,
-            key: 'YOUR_GOOGLE_API_KEY', // Replace with your API key
+            key: 'AIzaSyBOShUQH0RF7USNk8kQNL9W6Li9dVpdU88', 
           },
         }
       );
@@ -48,6 +57,9 @@ const Header: React.FC<HeaderProps> = ({ title, onSearch }) => {
         const location = result.geometry.location;
         onSearch({ lat: location.lat, lng: location.lng });
         setError(null);
+
+        // Fetch transportation data
+        getTransportData(); 
       } else {
         setError('No results found for the given address.');
         onSearch(null);
@@ -60,6 +72,16 @@ const Header: React.FC<HeaderProps> = ({ title, onSearch }) => {
       }
       onSearch(null);
     }
+  };
+
+  const getTransportData = () => {
+    const sampleData: TransportData[] = [
+      { from: '', to: '', platform: '', time: '', type: '' },
+      { from: 'Helsingborg', to: 'Gothenburg', platform: '3', time: '11:30 AM', type: 'Train' },
+      { from: 'Helsingborg', to: 'Copenhagen', platform: '5', time: '11:30 AM', type: 'Train' },
+    ];
+
+    setTransportData(sampleData);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -95,6 +117,38 @@ const Header: React.FC<HeaderProps> = ({ title, onSearch }) => {
       </header>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {/* logic for the table */}
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>Platform</th>
+              <th>Time</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transportData.length > 0 ? (
+              transportData.map((data, index) => (
+                <tr key={index}>
+                  <td>{data.from}</td>
+                  <td>{data.to}</td>
+                  <td>{data.platform}</td>
+                  <td>{data.time}</td>
+                  <td>{data.type}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5}>No transport data available.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
