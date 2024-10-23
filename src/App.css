@@ -124,7 +124,7 @@ body, html {
 .departures-table {
   grid-column: 2 / 4;
   grid-row: 1 / 2;
-  /* width: 60%; */
+  width: -webkit-fill-available;
   border:#007BFF solid 1px
 }
 

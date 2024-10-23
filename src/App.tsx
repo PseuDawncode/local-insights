@@ -9,18 +9,18 @@ const App: React.FC = () => {
         console.log('Search term:', searchTerm);
     };
 
-    // const [coordinates, setCoordinates] = useState<{
-    //     lat: number;
-    //     lon: number;
-    // } | null>(null);
-
     const [coordinates, setCoordinates] = useState<{
         lat: number;
         lon: number;
-    } | null>({
-        lat: 57.7089,
-        lon: 11.9746, // Gothenburg coordinates for testing
-    });
+    } | null>(null);
+
+    // const [coordinates, setCoordinates] = useState<{
+    //     lat: number;
+    //     lon: number;
+    // } | null>({
+    //     lat: 57.7089,
+    //     lon: 11.9746, // Gothenburg coordinates for testing
+    // });
 
     return (
         <div className='App'>
