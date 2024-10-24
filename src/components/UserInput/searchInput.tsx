@@ -1,98 +1,116 @@
 import React, { useEffect, useState } from 'react';
-import './searchInput.css';
-import { Button, Container, Form, InputGroup, ListGroup} from 'react-bootstrap';
- 
+//import './searchInput.css';
+import { Button, Container, Form, InputGroup, ListGroup } from 'react-bootstrap';
+
 interface UserInputProps {
-    setCoordinates: (coordinates: { lat: number, lng: number }) => void;
-  }
+  setCoordinates: (coordinates: { lat: number; lng: number }) => void;
+}
+
+interface Prediction {
+  description: string;
+  place_id: string;
+}
 
 const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
   const [location, setLocation] = useState<string>('');
   const [predictionSelected, setPredictionSelected] = useState<boolean>(false);
-  const [autoPredictions, setAutoPredictions] = useState<any[]>([]);
- 
- 
+  const [autoPredictions, setAutoPredictions] = useState<Prediction[]>([]);
+
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
- 
+
+  // Fetch location predictions from the Google Places API
   const fetchPredictions = async () => {
-    const response = await fetch(
-      `${apiEndpoint}?input=${location}&key=${apiKey}`
-    );
-    const data = await response.json();
-    console.log(data);
- 
-    setAutoPredictions(data.predictions);
-  }
- 
+    if (!location) return; // No need to fetch predictions if input is empty
+
+    try {
+      const response = await fetch(`${apiEndpoint}?input=${location}&key=${apiKey}`);
+      const data = await response.json();
+      setAutoPredictions(data.predictions || []);
+    } catch (error) {
+      console.error('Error fetching predictions:', error);
+    }
+  };
+
   useEffect(() => {
     if (location.length > 3 && !predictionSelected) {
-      fetchPredictions().catch(console.error);
+      fetchPredictions();
     } else {
-      setAutoPredictions([]);
+      setAutoPredictions([]); // Clear predictions if no match or input is too short
     }
   }, [location]);
- 
+
+  // Handle input changes for search field
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const userInput = event.target.value;
+    setLocation(event.target.value);
     setPredictionSelected(false);
-    setLocation(userInput);
   };
- 
+
+  // Handle click on an autocomplete prediction
   const handleAutoPredictionClick = (prediction: string) => {
     setLocation(prediction);
     setPredictionSelected(true);
     setAutoPredictions([]);
   };
- 
+
+  // Handle form submission to geocode the selected location
   const handleSubmit = async () => {
     if (!location) {
-      alert("Lütfen bir yer girin.");
+      alert('Please enter a location.');
       return;
     }
- 
+
     try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${apiKey}`
-      );
+      const response = await fetch(`${apiEndpoint}?input=${location}&key=${apiKey}`);
       const data = await response.json();
-      console.log('Coordinates:', data);
-      setCoordinates(data.results[0].geometry.location);
+
+      if (data.results && data.results.length > 0) {
+        const coordinates = data.results[0].geometry.location;
+        setCoordinates(coordinates);
+        console.log('Coordinates:', coordinates);
+      } else {
+        alert('No coordinates found for the given location.');
+      }
     } catch (error) {
-      console.error('Hata:', error);
+      console.error('Error fetching coordinates:', error);
     }
-  }
- 
+  };
+
   return (
     <Container fluid id="user-input-section">
       <div className="input-wrapper">
-        <InputGroup >
+        <InputGroup>
           <Form.Control
-            placeholder="From"
-            aria-label="Recipient's username"
-            aria-describedby="basic-addon2"
-            type= "text"
+            placeholder="Enter a location"
+            type="text"
             value={location}
             onChange={handleInputChange}
           />
-          <Button onClick={handleSubmit} variant="success" id="button-addon2">
+          <Button onClick={handleSubmit} variant="success">
             Search
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search ms-1 mb-1" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-search ms-1 mb-1"
+              viewBox="0 0 16 16"
+            >
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
             </svg>
           </Button>
         </InputGroup>
- 
+
         {autoPredictions.length > 0 && (
-          <div className='list-group-container'>
+          <div className="list-group-container">
             <ListGroup>
-              {autoPredictions.map((autoPrediction) => (
+              {autoPredictions.map((prediction) => (
                 <ListGroup.Item
-                  key={autoPrediction.place_id}
+                  key={prediction.place_id}
                   action
-                  onClick={() => handleAutoPredictionClick(autoPrediction.description)}
+                  onClick={() => handleAutoPredictionClick(prediction.description)}
                 >
-                  {autoPrediction.description}
+                  {prediction.description}
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -101,6 +119,6 @@ const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
       </div>
     </Container>
   );
-}
- 
+};
+
 export default UserInput;
