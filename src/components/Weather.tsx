@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Weather.css';
 
 interface WeatherProps {
     coordinates: { lat: number; lon: number };
@@ -18,7 +19,7 @@ const Weather: React.FC<WeatherProps> = ({ coordinates }) => {
 
             try {
                 const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-                console.log('API Key:', import.meta.env.VITE_WEATHER_API_KEY);
+                // console.log('API Key:', import.meta.env.VITE_WEATHER_API_KEY);
 
                 if (!apiKey) throw new Error('API key not found');
 
@@ -73,9 +74,7 @@ const Weather: React.FC<WeatherProps> = ({ coordinates }) => {
     return (
         <div>
             <div className='weather-forecast'>
-                <h3>
-                    Current Weather for Selected Location (Monday to Friday)
-                </h3>
+                <h3>5-Day Weather Forecast for Selected Location</h3>
                 {isLoading ? (
                     <p>Loading...</p>
                 ) : error ? (
