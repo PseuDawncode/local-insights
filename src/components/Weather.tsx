@@ -62,8 +62,13 @@ const Weather: React.FC<WeatherProps> = ({ coordinates }) => {
         fetchWeatherData();
     }, [coordinates]);
 
-    const dailyData = weatherData?.daily?.slice(0, 5) || [];
-    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    // const dailyData = weatherData?.daily?.slice(0, 5) || [];
+    // const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+    const dailyData =
+        weatherData?.list?.filter((item: any) =>
+            item.dt_txt.includes('12:00:00')
+        ) || [];
 
     return (
         <div>
@@ -88,7 +93,13 @@ const Weather: React.FC<WeatherProps> = ({ coordinates }) => {
                         <tbody>
                             {dailyData.map((day: any, index: number) => (
                                 <tr key={index}>
-                                    <td>{daysOfWeek[index]}</td>
+                                    <td>
+                                        {new Date(
+                                            day.dt_txt
+                                        ).toLocaleDateString('en-US', {
+                                            weekday: 'long',
+                                        })}
+                                    </td>
                                     <td>{day.main.temp}°C</td>
                                     <td>{(day.pop * 100).toFixed(0)}%</td>
                                     <td>
