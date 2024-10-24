@@ -1,23 +1,24 @@
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   height: 100vh;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  flex-direction: column;  
+  flex-direction: column;
   font-family: Arial, sans-serif;
 }
 
 .searchbar-container {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
 }
 
 
 .search-bar {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .search-input {
@@ -43,36 +44,34 @@ body, html {
 }
 
 .header-container {
-  width: 100vw; 
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .header {
-  width: 100%; 
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
   z-index: 1000;
-  background-color: #3b3b3b; 
-  box-sizing: border-box; 
+  background-color: #3b3b3b;
+  box-sizing: border-box;
 }
 
-
-
 .logo {
-  height: 120px;          
+  height: 120px;
   margin-right: 20px;
 }
 
 .logo-container {
   position: absolute;
-  left: 15px; 
+  left: 15px;
   transform: translateY(-50%);
   margin-left: 50px;
   margin-top: 120px;
@@ -81,14 +80,14 @@ body, html {
 }
 
 .title {
-  font-size: 2em;        
+  font-size: 2em;
   font-weight: bold;
-  margin-bottom: 20px;    
+  margin-bottom: 20px;
 }
 
 .title-container {
   text-align: center;
-  margin-bottom: 30px; 
+  margin-bottom: 30px;
 }
 
 .main-container {
@@ -100,6 +99,7 @@ body, html {
   grid-gap: 2vh;
   margin: 2vh;
 }
+
 .temp {
   width: -webkit-fill-available;
   border: 1px solid gray;
@@ -108,26 +108,53 @@ body, html {
     grid-column: 4 / 5;
     grid-row: 1 / 2;
   }
+
   &.opt-info {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
   }
-  
+
   &.traffic {
     grid-column: 3 / 5;
     grid-row: 2 / 3;
   }
 }
 
-/* Departures table styling */
+/* Table styling */
 
-.departures-table {
+#departures-table {
+  border-collapse: collapse;
   grid-column: 2 / 4;
   grid-row: 1 / 2;
   width: -webkit-fill-available;
-  border:#007BFF solid 1px
+  border: #9B53F2 solid 3px;
 }
 
-.departures-table > tr > th {
-  border: pink solid 2px;
+table>tr>th {
+  border-bottom: pink solid 2px;
+}
+
+td,
+th {
+  border-right: #40A3E7 2px solid;
+  padding-left: 5px;
+  border-bottom: pink 2px solid;
+}
+
+td:last-child,
+th:last-child {
+  border-right: none;
+}
+
+/* transport departures media queries */
+
+@media screen and (max-width: 480px) {
+
+.main-container {
+  display: block;
+}
+
+  .logo {
+    display: none;
+  }
 }
