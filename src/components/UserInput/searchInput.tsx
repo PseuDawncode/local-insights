@@ -12,12 +12,11 @@ const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
   const [autoPredictions, setAutoPredictions] = useState<any[]>([]);
  
  
-  const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-  const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
+  const apiKey = 'AIzaSyBOShUQH0RF7USNk8kQNL9W6Li9dVpdU88';
  
   const fetchPredictions = async () => {
     const response = await fetch(
-      `${apiEndpoint}?input=${location}&key=${apiKey}`
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${location}&key=${apiKey}`
     );
     const data = await response.json();
     console.log(data);
