@@ -14,12 +14,15 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
+    "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-leaflet": "^4.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@types/leaflet": "^1.9.14",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.2",
