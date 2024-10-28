@@ -2,7 +2,7 @@ function Departures() {
 
     const departuresData = async () => {
         const apiKey = import.meta.env.VITE_API_KEY;
-        let address: string = "Luftkabelgatan 8 Stockholm";
+       // let address: string = "Luftkabelgatan 8 Stockholm";
 
         try { 
         const dataValues: Response = await fetch(`https://geocode.maps.co/search?q=${address}&api_key=${apiKey}`);
