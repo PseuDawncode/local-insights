@@ -117,6 +117,7 @@ html {
   &.traffic {
     grid-column: 3 / 5;
     grid-row: 2 / 3;
+    column-span: all;
   }
 }
 
@@ -128,6 +129,11 @@ html {
   grid-row: 1 / 2;
   width: -webkit-fill-available;
   border: #9B53F2 solid 3px;
+}
+
+.departures-heading {
+  font-size: large;
+  text-align: center;
 }
 
 table>tr>th {
