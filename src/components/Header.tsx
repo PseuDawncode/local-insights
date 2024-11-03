@@ -19,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({ title, logoSrc }) => {
 
   return (
     <div className="header-container">
-      <header className="header">
+    <header className="header">
         <div className="logo-container">
           <img src={logoSrc} alt="Logo" className="logo" />
         </div>
@@ -42,7 +42,27 @@ const Header: React.FC<HeaderProps> = ({ title, logoSrc }) => {
         )}
       </div>
 
+      <img src="/images/logo.png" alt="Logo" className="logo" />
+      </div>
+      <div className="title-container">
+        <h1 className="title">{title}</h1>
+      </div>
+      <div className="searchbar-container">
+        <form className="search-bar" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Location..."
+            value={searchTerm}
+            onChange={handleInputChange}
+          />
+          <button type="submit" className="search-button">Search</button>
+        </form>
+      </div>
+    </header>
+    </div>
   );
 };
 
 export default Header;
+
