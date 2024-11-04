@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Departures() {
 
@@ -10,45 +10,47 @@ function Departures() {
     }[]>([]);
 
     const departuresData = async () => {
-        
-         // const apiKey = import.meta.env.TRAFIKVERKET_API_KEY;
-        try {
-            const nearbyStops = await fetch(`https://api.resrobot.se/v2.1/departureBoard?id=740000002&format=json&accessId=${import.meta.env.VITE_TRAFIKVERKET_API_KEY}`);
+
+        // const apiKey = import.meta.env.TRAFIKVERKET_API_KEY;
+        try {//             const nearbyStops = await fetch(`https://api.resrobot.se/v2.1/departureBoard?id=740000002&format=json&accessId=${import.meta.env.VITE_TRAFIKVERKET_API_KEY}`);
+
+            const nearbyStops = await fetch(`http://localhost:3000/location/740000002`);
             if (!nearbyStops.ok) {
                 throw new Error("Network response unavailable");
             }
             const finalData = await nearbyStops.json();
+            console.log(finalData)
 
             const displayData = [
                 {
-                    fromStop: finalData.Departure[0].stop,
-                    toStop: finalData.Departure[0].direction,
-                    departureTime: finalData.Departure[0].time,
-                    transportType: finalData.Departure[0].Product.catOutL
+                    fromStop: finalData.departure[0].stop,
+                    toStop: finalData.departure[0].direction,
+                    departureTime: finalData.departure[0].time,
+                    transportType: finalData.departure[0].Product[0].catOutL
                 },
                 {
-                    fromStop: finalData.Departure[1].stop,
-                    toStop: finalData.Departure[1].direction,
-                    departureTime: finalData.Departure[1].time,
-                    transportType: finalData.Departure[1].Product.catOutL
+                    fromStop: finalData.departure[1].stop,
+                    toStop: finalData.departure[1].direction,
+                    departureTime: finalData.departure[1].time,
+                    transportType: finalData.departure[1].Product[0].catOutL
                 },
                 {
-                    fromStop: finalData.Departure[2].stop,
-                    toStop: finalData.Departure[2].direction,
-                    departureTime: finalData.Departure[2].time,
-                    transportType: finalData.Departure[2].Product.catOutL
+                    fromStop: finalData.departure[2].stop,
+                    toStop: finalData.departure[2].direction,
+                    departureTime: finalData.departure[2].time,
+                    transportType: finalData.departure[2].Product[0].catOutL
                 },
                 {
-                    fromStop: finalData.Departure[3].stop,
-                    toStop: finalData.Departure[3].direction,
-                    departureTime: finalData.Departure[3].time,
-                    transportType: finalData.Departure[3].Product.catOutL
+                    fromStop: finalData.departure[3].stop,
+                    toStop: finalData.departure[3].direction,
+                    departureTime: finalData.departure[3].time,
+                    transportType: finalData.departure[3].Product[0].catOutL
                 },
                 {
-                    fromStop: finalData.Departure[4].stop,
-                    toStop: finalData.Departure[4].direction,
-                    departureTime: finalData.Departure[4].time,
-                    transportType: finalData.Departure[4].Product.catOutL
+                    fromStop: finalData.departure[4].stop,
+                    toStop: finalData.departure[4].direction,
+                    departureTime: finalData.departure[4].time,
+                    transportType: finalData.departure[4].Product[0].catOutL
                 },
             ];
 
@@ -58,7 +60,10 @@ function Departures() {
         }
     };
 
-    departuresData();
+    useEffect(() => {
+        departuresData()
+    }, [])
+    console.log(departureData)
 
     return (
         <section id="departures-table">
