@@ -6,7 +6,9 @@
   ],
   "compilerOptions": {
     "lib": ["dom", "es6"],
-    "types": ["react", "react-dom"]
+    "types": ["react", "react-dom"],
+    "esModuleInterop": true  
+  }
 }
-}
+
 
