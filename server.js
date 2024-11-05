@@ -5,8 +5,12 @@ import axios from "axios";
 const backend = express();
 const port = 3000;
 
-backend.use(cors()); // allows requests from the React frontend
-backend.use(express.json()); // middleware for parsin JSON
+backend.use(cors({
+    origin: 'http://localhost:5173',  // Replace with  Github Pages link later
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+})); // allows requests from the React frontend
+backend.use(express.json()); // middleware for parsing JSON
 
 const apiKey = "3fb464c5-8fbb-4337-886b-cd5baa31e8d0";
 const departures = `https://api.resrobot.se/v2.1/departureBoard`;
@@ -20,7 +24,6 @@ const getDepartureBoardData = async (stationId) => {
                 accessId: apiKey,
             },
         });
-        console.log(response)
         const departure = response.data.Departure.slice(0, 5);
         return departure;
     } catch (error) {
@@ -42,7 +45,7 @@ backend.get("/location/:stationId", async (req, res) => {
 
     } catch (error) {
         console.error("Server error: ", error);
-        res.status(500).json({error: "Server error"});
+        res.status(500).json({ error: "Server error" });
     }
 });
 
