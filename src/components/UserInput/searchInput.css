@@ -1,0 +1,60 @@
+#user-input-section {
+    padding: 20px;
+ 
+  }
+  
+  .input-wrapper {
+    max-width: 600px;
+    margin: 0 auto; 
+  }
+  
+  .input-wrapper .input-group {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+  }
+  
+  button#button-addon2 {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button#button-addon2:hover {
+    background-color: #218838;
+  }
+  
+  button#button-addon2 svg {
+    margin-left: 5px;
+  }
+  
+  .list-group-container {
+    margin-top: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+  }
+  
+  .list-group-container .list-group-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .list-group-container .list-group-item:hover {
+    background-color: #f1f1f1;
+  }
+  
