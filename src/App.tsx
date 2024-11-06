@@ -5,6 +5,7 @@ import Weather from './components/Weather';
 import SearchInput from './components/SearchInput';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css"
+import Situations from './components/Situations';
 
 export const LocationContext: React.Context<{ lat: number, lon: number }> = React.createContext(undefined as any);
 
@@ -56,7 +57,9 @@ const App: React.FC = () => {
                             )}
                         </div>
                         <div className='temp opt-info' />
-                        <div className='temp traffic' />
+                        <div className='temp traffic'>
+                            <Situations/>
+                        </div>
                     </div>
                 </LocationContext.Provider >
         </div>
