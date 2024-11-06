@@ -6,12 +6,14 @@ import {
     InputGroup,
     ListGroup,
 } from 'react-bootstrap';
+import { MagnifyingGlass, Spinner } from '../assets/SVGs';
 
 interface UserInputProps {
     setCoordinates: (coordinates: { lat: number; lon: number }) => void;
 }
 
 const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
+    const [loading, setLoading] = useState(false);
     const [location, setLocation] = useState<string>('');
     const [predictionSelected, setPredictionSelected] =
         useState<boolean>(false);
@@ -50,11 +52,12 @@ const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
     };
 
     const handleSubmit = async () => {
+        setLoading(true);
+
         if (!location) {
             alert(`It's not working!`);
             return;
         }
-
         try {
             const response = await fetch(
                 `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${apiKey}`
@@ -67,8 +70,14 @@ const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
             });
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setLoading(false);
         }
     };
+
+    if (loading) {
+        return <div id='Load_Overlay'><Spinner/></div>
+    }
 
     return (
         <Container fluid id='user-input-section'>
@@ -88,16 +97,7 @@ const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
                         id='button-addon2'
                     >
                         Search
-                        <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            width='16'
-                            height='16'
-                            fill='currentColor'
-                            className='bi bi-search ms-1 mb-1'
-                            viewBox='0 0 16 16'
-                        >
-                            <path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0' />
-                        </svg>
+                        <MagnifyingGlass/>
                     </Button>
                 </InputGroup>
 

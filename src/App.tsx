@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
-
 import Departures from './components/Departures';
 import Weather from './components/Weather';
 import SearchInput from './components/SearchInput';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./App.css"
 
 export const LocationContext: React.Context<{ lat: number, lon: number }> = React.createContext(undefined as any);
 
