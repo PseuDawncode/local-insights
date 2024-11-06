@@ -1,64 +1,77 @@
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { LocationContext } from "../App";
 
 function Departures() {
+    const searchInputData = useContext(LocationContext);
 
     const [departureData, setDepartureData] = useState<{
         fromStop: string;
         toStop: string;
+        platform: number,
         departureTime: string;
         transportType: string
     }[]>([]);
 
-    const departuresData = async () => {
-        
-         // const apiKey = import.meta.env.TRAFIKVERKET_API_KEY;
-        try {
-            const nearbyStops = await fetch(`https://api.resrobot.se/v2.1/departureBoard?id=740000002&format=json&accessId=${import.meta.env.VITE_TRAFIKVERKET_API_KEY}`);
-            if (!nearbyStops.ok) {
-                throw new Error("Network response unavailable");
+    interface Departure {
+        fromStop: string;
+        toStop: string;
+        platform: number,
+        departureTime: string;
+        transportType: string;
+    }
+
+    useEffect(() => {
+        const departuresData = async () => {
+            if (searchInputData) {
+                try {
+                    // etch nearby stops using coordinates
+                    const nearbyStopsResponse = await fetch(
+                        `https://api.resrobot.se/v2.1/location.nearbystops?format=json&accessId=${import.meta.env.VITE_TRAFIKVERKET_API_KEY}&originCoordLat=${searchInputData.lat}&originCoordLong=${searchInputData.lon}`
+                    );
+                    if (!nearbyStopsResponse.ok) {
+                        throw new Error("Failed to fetch nearby stops");
+                    }
+                    const nearbyStopsData = await nearbyStopsResponse.json();
+
+                    // get stop ID
+                    const stopId = nearbyStopsData.stopLocationOrCoordLocation[0].StopLocation.id;
+
+                    // fetch departure board using stop ID
+                    const departuresResponse = await fetch(
+                        `https://api.resrobot.se/v2.1/departureBoard?id=${stopId}&format=json&accessId=${import.meta.env.VITE_TRAFIKVERKET_API_KEY}`
+                    );
+                    if (!departuresResponse.ok) {
+                        throw new Error("Network response unavailable");
+                    }
+                    const finalData = await departuresResponse.json();
+
+                    const displayData: Departure[] = [];
+
+                    // loop over the first 5 results from the departures response json
+                    for (let i = 0; i < 5; i++) {
+                        if (finalData.Departure[i]) {
+                            displayData.push({
+                                fromStop: finalData.Departure[i].stop,
+                                toStop: finalData.Departure[i].direction,
+                                platform: finalData.Departure[i].rtTrack,
+                                departureTime: finalData.Departure[i].time,
+                                transportType: finalData.Departure[i].Product[0].catOutL
+                            });
+                        } else {
+                            break; // Exit the loop if no more departures are found
+                        }
+                    }
+
+                    setDepartureData(displayData);
+                } catch (error) {
+                    console.error(error);
+                }
             }
-            const finalData = await nearbyStops.json();
+        };
 
-            const displayData = [
-                {
-                    fromStop: finalData.Departure[0].stop,
-                    toStop: finalData.Departure[0].direction,
-                    departureTime: finalData.Departure[0].time,
-                    transportType: finalData.Departure[0].Product.catOutL
-                },
-                {
-                    fromStop: finalData.Departure[1].stop,
-                    toStop: finalData.Departure[1].direction,
-                    departureTime: finalData.Departure[1].time,
-                    transportType: finalData.Departure[1].Product.catOutL
-                },
-                {
-                    fromStop: finalData.Departure[2].stop,
-                    toStop: finalData.Departure[2].direction,
-                    departureTime: finalData.Departure[2].time,
-                    transportType: finalData.Departure[2].Product.catOutL
-                },
-                {
-                    fromStop: finalData.Departure[3].stop,
-                    toStop: finalData.Departure[3].direction,
-                    departureTime: finalData.Departure[3].time,
-                    transportType: finalData.Departure[3].Product.catOutL
-                },
-                {
-                    fromStop: finalData.Departure[4].stop,
-                    toStop: finalData.Departure[4].direction,
-                    departureTime: finalData.Departure[4].time,
-                    transportType: finalData.Departure[4].Product.catOutL
-                },
-            ];
 
-            setDepartureData(displayData);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    departuresData();
+        departuresData()
+    }, [searchInputData])
 
     return (
         <section id="departures-table">
@@ -76,7 +89,7 @@ function Departures() {
                         <tr key={positionInArray}>
                             <td>{departureInfo.fromStop}</td>
                             <td>{departureInfo.toStop}</td>
-                            <td>Insert API platform here</td>
+                            <td>{departureInfo.platform}</td>
                             <td>{departureInfo.departureTime}</td>
                             <td>{departureInfo.transportType}</td>
                         </tr>

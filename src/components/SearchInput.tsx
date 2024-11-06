@@ -51,7 +51,7 @@ const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
 
     const handleSubmit = async () => {
         if (!location) {
-            alert('Lütfen bir yer girin.');
+            alert(`It's not working!`);
             return;
         }
 
@@ -61,9 +61,12 @@ const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
             );
             const data = await response.json();
             console.log('Coordinates:', data);
-            setCoordinates(data.results[0].geometry.location);
+            setCoordinates({
+                lat: data.results[0].geometry.location.lat,
+                lon: data.results[0].geometry.location.lng
+            });
         } catch (error) {
-            console.error('Hata:', error);
+            console.error('Error:', error);
         }
     };
 
