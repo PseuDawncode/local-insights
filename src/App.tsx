@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-
+import './App.css';
 import Departures from './components/Departures';
 import Weather from './components/Weather';
 import SearchInput from './components/SearchInput';

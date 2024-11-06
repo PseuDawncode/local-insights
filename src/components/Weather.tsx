@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './Weather.css';
 
 interface WeatherProps {
     coordinates: { lat: number; lon: number };

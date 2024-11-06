@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './searchInput.css';
 import { Button, Container, Form, InputGroup, ListGroup} from 'react-bootstrap';
  
 interface UserInputProps {

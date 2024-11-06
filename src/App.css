@@ -131,3 +131,183 @@ th:last-child {
     display: none;
   }
 }
+
+/* from trafficStyle.css */
+
+.traffic-updates-container {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  max-width: 100%;
+}
+
+
+.traffic-updates-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #00ffcc;
+}
+
+
+.traffic-updates-container p {
+  font-size: 1rem;
+  color: #ff6666;
+  text-align: center;
+}
+
+/* Map container styling */
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Marker popup styles */
+.leaflet-popup-content strong {
+  color: #00ffcc;
+}
+
+.leaflet-popup-content {
+  font-size: 0.9rem;
+}
+
+/* No traffic updates available message */
+.no-updates-message {
+  color: #cccccc;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .traffic-updates-container {
+    padding: 15px;
+  }
+
+  .traffic-updates-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .leaflet-container {
+    height: 300px;
+  }
+}
+
+/* Styling for Weather Forecast Table */
+.weather-forecast {
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.weather-forecast h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.weather-forecast table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.weather-forecast th,
+.weather-forecast td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.weather-forecast th {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+.weather-forecast td {
+  background-color: #f2f2f2;
+}
+
+.weather-forecast img {
+  vertical-align: middle;
+}
+
+.weather-forecast tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+@media screen and (max-width: 768px) {
+  .weather-forecast table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* from searchInput.css */
+
+#user-input-section {
+  padding: 20px;
+
+}
+
+.input-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.input-wrapper .input-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  box-shadow: none;
+}
+
+button#button-addon2 {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+button#button-addon2:hover {
+  background-color: #218838;
+}
+
+button#button-addon2 svg {
+  margin-left: 5px;
+}
+
+.list-group-container {
+  margin-top: 15px;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.list-group-container .list-group-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.list-group-container .list-group-item:hover {
+  background-color: #f1f1f1;
+}
