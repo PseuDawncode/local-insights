@@ -28,13 +28,17 @@ const Weather: React.FC<WeatherProps> = ({ coordinates }) => {
                     `Fetching weather data for lat: ${lat}, lon: ${lon}`
                 );
 
+                const weatherResponse = await fetch(
+                    `/weather/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
+                );
+
                 // const weatherResponse = await fetch(
                 //     `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,current&units=metric&appid=${apiKey}`
                 // );
 
-                const weatherResponse = await fetch(
-                    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`
-                );
+                // const weatherResponse = await fetch(
+                //     `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`
+                // );
 
                 console.log('Full weather response:', weatherResponse);
 
