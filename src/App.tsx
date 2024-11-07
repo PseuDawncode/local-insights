@@ -5,6 +5,8 @@ import Departures from './components/Departures';
 import Weather from './components/Weather';
 import SearchInput from './components/SearchInput';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./App.css"
+import Situations from './components/Situations';
 
 export const LocationContext: React.Context<{ lat: number, lon: number }> = React.createContext(undefined as any);
 
@@ -32,11 +34,10 @@ const App: React.FC = () => {
                     <header className='App-header'>
                         <h1>Local Travel and Weather Dashboard</h1>
                     </header>
+                        
+                        <SearchInput setCoordinates={handleSearch} />
 
-                    {/* <SearchInput setCoordinates={setCoordinates} /> */}
-                    <SearchInput setCoordinates={handleSearch} />
-
-                    {coordinates && (
+                        {coordinates && (
                         <div className='coordinates-display'>
                             <h2>Coordinates:</h2>
                             <p>Latitude: {coordinates.lat}</p>
@@ -49,14 +50,16 @@ const App: React.FC = () => {
                             {coordinates && (
                                 <Weather
                                     coordinates={{
-                                        lat: coordinates.lat,
-                                        lon: coordinates.lon,
+                                    lat: coordinates.lat,
+                                    lon: coordinates.lon,
                                     }}
                                 />
                             )}
                         </div>
                         <div className='temp opt-info' />
-                        <div className='temp traffic' />
+                        <div className='temp traffic'>
+                            <Situations/>
+                        </div>
                     </div>
                 </LocationContext.Provider >
         </div>
