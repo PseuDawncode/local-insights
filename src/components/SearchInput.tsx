@@ -1,128 +1,121 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-    Container,
-    Button,
-    Form,
-    InputGroup,
-    ListGroup,
-} from 'react-bootstrap';
+  Container,
+  Button,
+  Form,
+  InputGroup,
+  ListGroup,
+} from "react-bootstrap";
+import { MagnifyingGlass, Spinner } from '../assets/SVGs';
 
 interface UserInputProps {
-    setCoordinates: (coordinates: { lat: number; lon: number }) => void;
+  setCoordinates: (coordinates: { lat: number; lon: number }) => void;
 }
 
 const UserInput: React.FC<UserInputProps> = ({ setCoordinates }) => {
-    const [location, setLocation] = useState<string>('');
-    const [predictionSelected, setPredictionSelected] =
-        useState<boolean>(false);
-    const [autoPredictions, setAutoPredictions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState<string>("");
+  const [predictionSelected, setPredictionSelected] = useState<boolean>(false);
+  const [autoPredictions, setAutoPredictions] = useState<any[]>([]);
 
-    const apiKey = 'AIzaSyBOShUQH0RF7USNk8kQNL9W6Li9dVpdU88';
-
+  // Fetch autocomplete predictions when `location` updates and is more than 3 characters
+  useEffect(() => {
     const fetchPredictions = async () => {
+      try {
         const response = await fetch(
-            `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${location}&key=${apiKey}`
+          `http://localhost:3000/api/predictions?input=${location}`
         );
         const data = await response.json();
-        console.log(data);
-
-        setAutoPredictions(data.predictions);
+        setAutoPredictions(data || []);
+      } catch (error) {
+        console.error("Error fetching predictions:", error);
+      }
     };
 
-    useEffect(() => {
-        if (location.length > 3 && !predictionSelected) {
-            fetchPredictions().catch(console.error);
-        } else {
-            setAutoPredictions([]);
-        }
-    }, [location]);
+    if (location.length > 3 && !predictionSelected) {
+      fetchPredictions();
+    } else {
+      setAutoPredictions([]);
+    }
+  }, [location, predictionSelected]);
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const userInput = event.target.value;
-        setPredictionSelected(false);
-        setLocation(userInput);
-    };
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLocation(event.target.value);
+    setPredictionSelected(false);
+  };
 
-    const handleAutoPredictionClick = (prediction: string) => {
-        setLocation(prediction);
-        setPredictionSelected(true);
-        setAutoPredictions([]);
-    };
+  const handleAutoPredictionClick = (prediction: string) => {
+    setLocation(prediction);
+    setPredictionSelected(true);
+    setAutoPredictions([]);
+  };
 
-    const handleSubmit = async () => {
-        if (!location) {
-            alert(`It's not working!`);
-            return;
-        }
+  const handleSubmit = async () => {
+    setLoading(true);
 
-        try {
-            const response = await fetch(
-                `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${apiKey}`
-            );
-            const data = await response.json();
-            console.log('Coordinates:', data);
-            setCoordinates({
-                lat: data.results[0].geometry.location.lat,
-                lon: data.results[0].geometry.location.lng
-            });
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
+    if (!location) {
+      alert("Please enter a location.");
+      return;
+    }
 
-    return (
-        <Container fluid id='user-input-section'>
-            <div className='input-wrapper'>
-                <InputGroup>
-                    <Form.Control
-                        placeholder='From'
-                        aria-label="Recipient's username"
-                        aria-describedby='basic-addon2'
-                        type='text'
-                        value={location}
-                        onChange={handleInputChange}
-                    />
-                    <Button
-                        onClick={handleSubmit}
-                        variant='success'
-                        id='button-addon2'
-                    >
-                        Search
-                        <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            width='16'
-                            height='16'
-                            fill='currentColor'
-                            className='bi bi-search ms-1 mb-1'
-                            viewBox='0 0 16 16'
-                        >
-                            <path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0' />
-                        </svg>
-                    </Button>
-                </InputGroup>
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyBOShUQH0RF7USNk8kQNL9W6Li9dVpdU88`
+      );
+      const data = await response.json();
+      if (data.results && data.results[0]) {
+        setCoordinates({
+          lat: data.results[0].geometry.location.lat,
+          lon: data.results[0].geometry.location.lng,
+        });
+      } else {
+        alert("Location not found.");
+      }
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+    } finally {
+      setLoading(false);
+  }
+  };
+  if (loading) {
+    return <div id='Load_Overlay'><Spinner/></div>
+}
+  return (
+    <Container fluid id="user-input-section">
+      <div className="input-wrapper">
+        <InputGroup>
+          <Form.Control
+            placeholder="Enter location"
+            type="text"
+            value={location}
+            onChange={handleInputChange}
+          />
+          <Button onClick={handleSubmit} variant="success" id="button-addon2">
+            Search
+            <MagnifyingGlass/>
+          </Button>
+        </InputGroup>
 
-                {autoPredictions.length > 0 && (
-                    <div className='list-group-container'>
-                        <ListGroup>
-                            {autoPredictions.map((autoPrediction) => (
-                                <ListGroup.Item
-                                    key={autoPrediction.place_id}
-                                    action
-                                    onClick={() =>
-                                        handleAutoPredictionClick(
-                                            autoPrediction.description
-                                        )
-                                    }
-                                >
-                                    {autoPrediction.description}
-                                </ListGroup.Item>
-                            ))}
-                        </ListGroup>
-                    </div>
-                )}
-            </div>
-        </Container>
-    );
+        {autoPredictions.length > 0 && (
+          <div className="list-group-container">
+            <ListGroup>
+              {autoPredictions.map((autoPrediction) => (
+                <ListGroup.Item
+                  key={autoPrediction.place_id}
+                  action
+                  onClick={() =>
+                    handleAutoPredictionClick(autoPrediction.description)
+                  }
+                >
+                  {autoPrediction.description}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </div>
+        )}
+      </div>
+    </Container>
+  );
 };
 
 export default UserInput;
