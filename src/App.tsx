@@ -33,11 +33,10 @@ const App: React.FC = () => {
                     <header className='App-header'>
                         <h1>Local Travel and Weather Dashboard</h1>
                     </header>
+                        
+                        <SearchInput setCoordinates={handleSearch} />
 
-                    {/* <SearchInput setCoordinates={setCoordinates} /> */}
-                    <SearchInput setCoordinates={handleSearch} />
-
-                    {coordinates && (
+                        {coordinates && (
                         <div className='coordinates-display'>
                             <h2>Coordinates:</h2>
                             <p>Latitude: {coordinates.lat}</p>
@@ -50,8 +49,8 @@ const App: React.FC = () => {
                             {coordinates && (
                                 <Weather
                                     coordinates={{
-                                        lat: coordinates.lat,
-                                        lon: coordinates.lon,
+                                    lat: coordinates.lat,
+                                    lon: coordinates.lon,
                                     }}
                                 />
                             )}

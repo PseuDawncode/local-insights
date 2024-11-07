@@ -18,7 +18,7 @@ const Situations = () => {
       const fetchTrafficData = async () => {
         const xmlData = `
           <REQUEST>
-            <LOGIN authenticationkey="${import.meta.env.VITE_TRAFIKVERKET_API_KEY}"/>
+            <LOGIN authenticationkey="${import.meta.env.VITE_SITUATIONS_API_KEY}"/>
             <QUERY objecttype="Situation" schemaversion="1" limit="10">
               <FILTER>
                 <NEAR name="Deviation.Geometry.WGS84" value="${searchInputData.lat} ${searchInputData.lon}"/>
